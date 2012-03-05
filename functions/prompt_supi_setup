@@ -1,12 +1,12 @@
-# wunjo prompt theme
+# supi prompt theme
 
 autoload -U zgitinit
 zgitinit
 
-prompt_wunjo_help () {
+prompt_supi_help () {
   cat <<'EOF'
 
-  prompt wunjo
+  prompt supi
 
 EOF
 }
@@ -40,7 +40,7 @@ colorword() {
 	echo "%{"$'\e['${(j:;:)s}m"%}"
 }
 
-prompt_wunjo_setup() {
+prompt_supi_setup() {
 	local verbose
 	if [[ $TERM == screen* ]] && [ -n "$STY" ]; then
 		verbose=
@@ -106,8 +106,8 @@ prompt_wunjo_setup() {
 	done
 	pc[reset]=$(colorword . . 00)
 
-	typeset -Ag wunjo_prompt_colors
-	wunjo_prompt_colors=(${(kv)pc})
+	typeset -Ag supi_prompt_colors
+	supi_prompt_colors=(${(kv)pc})
 
 	local p_date p_line p_rc
 
@@ -120,13 +120,13 @@ prompt_wunjo_setup() {
 		PROMPT+="$pc[host]%m$pc[reset] "
 	fi
 	PROMPT+="$pc[path]%(2~.%~.%/)$pc[reset]"
-	PROMPT+="\$(prompt_wunjo_scm_status)"
+	PROMPT+="\$(prompt_supi_scm_status)"
 	PROMPT+="%(?.. $pc[rc]exited %1v$pc[reset])"
 	PROMPT+="
 "
 	PROMPT+="$pc[hist]%h$pc[reset] "
 	PROMPT+="$pc[shortpath]%1~$pc[reset]"
-	PROMPT+="\$(prompt_wunjo_scm_branch)"
+	PROMPT+="\$(prompt_supi_scm_branch)"
 	PROMPT+=" $pc[#]%#$pc[reset] "
 
 	RPROMPT=
@@ -137,10 +137,10 @@ prompt_wunjo_setup() {
 	RPROMPT+=" $p_line"
 
 	export PROMPT RPROMPT
-	add-zsh-hook precmd prompt_wunjo_precmd
+	add-zsh-hook precmd prompt_supi_precmd
 }
 
-prompt_wunjo_precmd() {
+prompt_supi_precmd() {
 	local ex=$?
 	psvar=()
 
@@ -152,10 +152,10 @@ prompt_wunjo_precmd() {
 	fi
 }
 
-prompt_wunjo_scm_status() {
+prompt_supi_scm_status() {
 	zgit_isgit || return
 	local -A pc
-	pc=(${(kv)wunjo_prompt_colors})
+	pc=(${(kv)supi_prompt_colors})
 
 	head=$(zgit_head)
 	gitcommit=$(revstring $head)
@@ -256,10 +256,10 @@ prompt_wunjo_scm_status() {
 	fi
 }
 
-prompt_wunjo_scm_branch() {
+prompt_supi_scm_branch() {
 	zgit_isgit || return
 	local -A pc
-	pc=(${(kv)wunjo_prompt_colors})
+	pc=(${(kv)supi_prompt_colors})
 
 	echo -n "$pc[punc]:$pc[scm_branch]$(zgit_head)"
 
@@ -289,6 +289,6 @@ prompt_wunjo_scm_branch() {
 	echo $pc[reset]
 }
 
-prompt_wunjo_setup "$@"
+prompt_supi_setup "$@"
 
 # vim:set ft=zsh:

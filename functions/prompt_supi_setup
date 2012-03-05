@@ -137,6 +137,9 @@ prompt_supi_precmd() {
 	else
 		psvar[1]="$ex"
 	fi
+
+	# Update terminal title
+	print -Pn "\e]0;%n@%m: %~\a"
 }
 
 prompt_supi_scm_status() {

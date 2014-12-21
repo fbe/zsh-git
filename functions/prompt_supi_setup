@@ -1,12 +1,12 @@
-# supi prompt theme
+# fbe prompt theme
 
 autoload -U zgitinit
 zgitinit
 
-prompt_supi_help () {
+prompt_fbe_help () {
   cat <<'EOF'
 
-  prompt supi
+  prompt fbe
 
 EOF
 }
@@ -40,7 +40,7 @@ colorword() {
 	echo "%{"$'\e['${(j:;:)s}m"%}"
 }
 
-prompt_supi_setup() {
+prompt_fbe_setup() {
 	typeset -A colorcode
 	colorcode[black]=0
 	colorcode[red]=1
@@ -99,8 +99,8 @@ prompt_supi_setup() {
 	done
 	pc[reset]=$(colorword . . 00)
 
-	typeset -Ag supi_prompt_colors
-	supi_prompt_colors=(${(kv)pc})
+	typeset -Ag fbe_prompt_colors
+	fbe_prompt_colors=(${(kv)pc})
 
 	local p_date p_line p_rc
 
@@ -110,13 +110,13 @@ prompt_supi_setup() {
 
 	PROMPT="$pc[host]%m$pc[reset] "
 	PROMPT+="$pc[path]%(2~.%~.%/)$pc[reset]"
-	PROMPT+="\$(prompt_supi_scm_status)"
+	PROMPT+="\$(prompt_fbe_scm_status)"
 	PROMPT+="%(?.. $pc[rc]exited %1v$pc[reset])"
 	PROMPT+="
 "
 	PROMPT+="$pc[hist]%h$pc[reset] "
 	PROMPT+="$pc[shortpath]%1~$pc[reset]"
-	PROMPT+="\$(prompt_supi_scm_branch)"
+	PROMPT+="\$(prompt_fbe_scm_branch)"
 	PROMPT+=" $pc[#]%#$pc[reset] "
 
 	RPROMPT="$p_date "
@@ -124,10 +124,10 @@ prompt_supi_setup() {
 	RPROMPT+=" $p_line"
 
 	export PROMPT RPROMPT
-	add-zsh-hook precmd prompt_supi_precmd
+	add-zsh-hook precmd prompt_fbe_precmd
 }
 
-prompt_supi_precmd() {
+prompt_fbe_precmd() {
 	local ex=$?
 	psvar=()
 
@@ -142,10 +142,10 @@ prompt_supi_precmd() {
 	print -Pn "\e]0;%n@%m: %~\a"
 }
 
-prompt_supi_scm_status() {
+prompt_fbe_scm_status() {
 	zgit_isgit || return
 	local -A pc
-	pc=(${(kv)supi_prompt_colors})
+	pc=(${(kv)fbe_prompt_colors})
 
 	head=$(zgit_head)
 	gitcommit=$(revstring $head)
@@ -240,10 +240,10 @@ prompt_supi_scm_status() {
 	fi
 }
 
-prompt_supi_scm_branch() {
+prompt_fbe_scm_branch() {
 	zgit_isgit || return
 	local -A pc
-	pc=(${(kv)supi_prompt_colors})
+	pc=(${(kv)fbe_prompt_colors})
 
 	echo -n "$pc[punc]:$pc[scm_branch]"
 
@@ -273,6 +273,6 @@ prompt_supi_scm_branch() {
 	echo $pc[reset]
 }
 
-prompt_supi_setup "$@"
+prompt_fbe_setup "$@"
 
 # vim:set ft=zsh:
